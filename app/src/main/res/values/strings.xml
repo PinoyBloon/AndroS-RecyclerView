@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Recycler View</string>
+    <string name="dragons_name">Dragon Name</string>
+    <string name="description">Description</string>
+    <string name="placeholder_img">Placeholder</string>
+</resources>
