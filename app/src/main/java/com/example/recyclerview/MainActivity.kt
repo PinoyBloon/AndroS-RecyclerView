@@ -1,20 +1,100 @@
 package com.example.recyclerview
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
+import android.widget.Toast
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity() {
 
-    companion object{
+    companion object {
         val INTENT_PARCELABLE = "OBJECT_INTENT"
+    }
+
+    lateinit var toggle: ActionBarDrawerToggle
+
+    /** Toolbar Code */
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.toolbar_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        /** Kode NavDraw nyelip dikit gapapa lahh */
+        if (toggle.onOptionsItemSelected(item)){
+            return true
+        }
+        /** END */
+
+        when (item.itemId) {
+
+            R.id.tb_add -> Toast.makeText(this, "You added another Entry!", Toast.LENGTH_SHORT)
+                .show()
+            R.id.tb_fav -> Toast.makeText(
+                this,
+                "You liked this? Thank you kindly!!",
+                Toast.LENGTH_SHORT
+            ).show()
+            R.id.tb_settings -> Toast.makeText(this, "YOU SHALL NOT PASS!!!!", Toast.LENGTH_SHORT)
+                .show()
+
+        }
+        return true
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        /** Navigation Drawer Core Code */
+        val drawerLayout: DrawerLayout = findViewById(R.id.navdraw_layout)
+        val navView: NavigationView = findViewById(R.id.navdraw_view)
+
+        toggle = ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close)
+        drawerLayout.addDrawerListener(toggle)
+        toggle.syncState()
+
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        navView.setNavigationItemSelectedListener {
+
+            when (it.itemId) {
+                R.id.navdraw_account -> Toast.makeText(
+                    this,
+                    "Account? What's that?",
+                    Toast.LENGTH_SHORT
+                ).show()
+                R.id.navdraw_logout -> Toast.makeText(
+                    this,
+                    "You don't even have an account!",
+                    Toast.LENGTH_SHORT
+                ).show()
+                R.id.navdraw_share -> Toast.makeText(
+                    this,
+                    "Thanks for sharing!",
+                    Toast.LENGTH_SHORT
+                ).show()
+                R.id.navdraw_rate -> Toast.makeText(
+                    this,
+                    "How would you rate us from 1 to 10?",
+                    Toast.LENGTH_SHORT
+                ).show()
+                R.id.navdraw_contact -> Toast.makeText(this, "CAN'T WE'RE BUSY", Toast.LENGTH_SHORT)
+                    .show()
+            }
+
+            true
+
+        }
+        /** END */
 
         val dragonsList = listOf<Dragons>(
             Dragons(
@@ -51,13 +131,13 @@ class MainActivity : AppCompatActivity() {
                         "\n| High Scholar of Karakan, Glendale Hazermoth |"
             ),
 
-        )
+            )
 
         val recyclerView = findViewById<RecyclerView>(R.id.rv_dragon)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.setHasFixedSize(true)
         recyclerView.adapter = DragonsAdapter(this, dragonsList) {
-            val intent = Intent (this, DetailDragonActivity::class.java)
+            val intent = Intent(this, DetailDragonActivity::class.java)
             intent.putExtra(INTENT_PARCELABLE, it)
             startActivity(intent)
 

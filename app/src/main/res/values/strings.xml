@@ -3,4 +3,6 @@
     <string name="dragons_name">Dragon Name</string>
     <string name="description">Description</string>
     <string name="placeholder_img">Placeholder</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
 </resources>
